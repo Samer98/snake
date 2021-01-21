@@ -11,6 +11,25 @@ class GameObject:
         self.symbol = symbol
         self.coordinates = point
 
+class Snake:
+    def __init__(self,headSymbol,point):
+        self.headSymbol = headSymbol
+        self.tailSymbol = "-"
+        self.coordinates = point
+        self.tailList = [
+            GameObject(self.tailSymbol,Point(self.coordinates.x-1,self.coordinates.y)),
+            GameObject(self.tailSymbol,Point(self.coordinates.x-2,self.coordinates.y)),
+            GameObject(self.tailSymbol,Point(self.coordinates.x-3,self.coordinates.y)),
+            GameObject(self.tailSymbol,Point(self.coordinates.x-4,self.coordinates.y)),
+            GameObject(self.tailSymbol,Point(self.coordinates.x-5,self.coordinates.y))
+        ]
+    def toGameObjectList(self):
+        objectsList=[]
+        objectsList.append(GameObject(self.headSymbol,self.coordinates))
+        for item in self.tailList:
+            objectsList.append(item)
+        return objectsList
+
 
 def gridToString(width, height, gameObjectList, defaultSymbol=" "):
     for gameObject in gameObjectList:
@@ -30,10 +49,6 @@ def gridToString(width, height, gameObjectList, defaultSymbol=" "):
 
 width=50
 height=20
-grid=[]
-for i in range(height):
-    for j in range(1, width):
-        grid.append(Point(i, j))
 
 border=[]
 
@@ -46,16 +61,16 @@ for x_axis in range(width):
         border.append(GameObject("+",Point(x_axis, height-1)))
 for y_axis in range(height):
        border.append(GameObject("+",Point(width-1, y_axis)))
-# for num in range(len(border)):
-#   border[num].print()
+grid=[]
 x = 30
-border.append(GameObject("h",Point(x,9)))
-border.append(GameObject("i",Point(x+1,9)))
-border.append(GameObject("s",Point(x+2,9)))
-border.append(GameObject("h",Point(x+3,9)))
-border.append(GameObject("a",Point(x+4,9)))
-border.append(GameObject("m",Point(x+5,9)))
-gridToString(width, height, border, )
+headSymbol = '>'
+tailSymbol = '='
+shamshom = Snake(headSymbol,Point(x+5,8))
+for item in shamshom.toGameObjectList():
+    grid.append(item)
+for item in border:
+    grid.append(item)
+gridToString(width, height, grid, )
 
 
 
